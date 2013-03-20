@@ -1,0 +1,16 @@
+{
+  "name": "collection-sync",
+  "repo": "apily/model-sync",
+  "version": "0.0.1",
+  "description": "Collection sync component",
+  "keywords": ["client-side", "MVC", "collection", "sync"],
+  "scripts": ["index.js"],
+  "dependencies": {
+    "apily/collection": "*",
+    "apily/request": "*"
+  },
+  "development": {
+    "component/assert": "*"
+  },
+  "license": "MIT"
+}
