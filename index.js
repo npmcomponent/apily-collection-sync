@@ -1,10 +1,11 @@
-/**
+
+/**!
  * collection-sync
- * Collection sync model
  *
- * @copyright 2012 Enrico Marino and Federico Spini
- * @license MIT
- */ 
+ * @author Enrico Marino and Federico Spini
+ * @copyright 2013 Enrico Marino and Federico Spini
+ * @licence MIT
+ */
 
 /** 
  * Component dependencies.
@@ -20,13 +21,17 @@ var request = require('request');
 module.exports = CollectionSync;
 
 /**
- * @constructor CoCollection
+ * @constructor CollectionSync
  *
  * @api public
  */
 
-function CollectionSync (options) {
-  Collection.call(this);
+function CollectionSync (models, options) {
+  Collection.call(this, models, options);
+  options = options || {};
+  if (options.root) {
+    this.root = options.root; 
+  }
 }
 
 /**
@@ -36,7 +41,6 @@ function CollectionSync (options) {
 CollectionSync.prototype = Object.create(Collection.prototype);
 CollectionSync.prototype.constructor = CollectionSync;
 
-
 /**
  * root
  */
@@ -44,23 +48,36 @@ CollectionSync.prototype.constructor = CollectionSync;
 CollectionSync.prototype.root = '';
 
 /**
+ * url
+ * Get the model url.
+ *
+ * @return {String} the collection url.
+ * @api public
+ */
+
+CollectionSync.prototype.url = function () {
+  return this.root;
+};
+
+/**
  * create
  *
- * @param {Function} callback
+ * @param {Object} data data
+ * @param {Function} callback callback
  *   @param {Object} err error
  *   @param {Model} model model
  * @param {Object} context
  * @api public
  */
 
-CollectionSync.prototype.create = function (data, callback) {
+CollectionSync.prototype.create = function (data, callback, context) {
   var callback = callback || function () {};
+  var url = this.url();
   var collection = this;
-  var root = collection.root;
   var model;
 
   request
-    .post(path)
+    .post(url)
     .data(data)
     .end(function (res) {
       if (res.ok) {
@@ -75,7 +92,8 @@ CollectionSync.prototype.create = function (data, callback) {
 /**
  * fetch
  *
- * @param {Function} callback
+ * @param {Object} options options
+ * @param {Function} callback callback
  *   @param {Object} err error
  *   @param {Object} res response
  * @param {Object} context
@@ -85,12 +103,13 @@ CollectionSync.prototype.create = function (data, callback) {
 CollectionSync.prototype.fetch = function (options, callback, context) {
   var options = options || {};
   var callback = callback || function () {};
+  var url = this.url();
   var collection = this;
   var models = [];
   var model;
 
   request
-    .get(path)
+    .get(url)
     .end(function (res) {
       if (res.ok) {
         res.body.forEach(function (data) {
