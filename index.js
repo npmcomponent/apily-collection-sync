@@ -64,7 +64,10 @@ CollectionSync.prototype.path = '/';
  */
 
 CollectionSync.prototype.url = function () {
-  return this.root.concat(this.path).replace(/\/\//, '/');
+  return this.root
+    .concat('/')
+    .concat(this.path)
+    .replace(/\/\//, '/');
 };
 
 /**
