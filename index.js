@@ -104,11 +104,13 @@ CollectionSync.prototype.get_by_id = function (id) {
  * @api public
  */
 
-CollectionSync.prototype.create = function (data, callback, context) {
-  data = data || {};
+CollectionSync.prototype.create = function (attributes, options, callback, context) {
+  attributes = attributes || {};
+  options = options || {};
   callback = callback || function () {};
   var collection = this;
   var url = collection.url();
+  var data = attributes;
 
   request
     .post(url)
@@ -117,7 +119,7 @@ CollectionSync.prototype.create = function (data, callback, context) {
       var models;
 
       if (res.ok) {
-        models = collection.add(res.body);
+        models = collection.add(res.body, options);
         callback.call(context, null, models);
       } else {
         callback.call(context, res.body, null);
@@ -150,7 +152,7 @@ CollectionSync.prototype.fetch = function (options, callback, context) {
       var models;
       
       if (res.ok) {
-        models = collection.add(res.body);
+        models = collection.add(res.body, options);
         callback.call(context, null, models);
       } else {
         callback.call(context, res.text, null);
