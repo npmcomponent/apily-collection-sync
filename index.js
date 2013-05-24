@@ -1,4 +1,3 @@
-
 /**!
  * collection-sync
  *
@@ -26,12 +25,8 @@ module.exports = CollectionSync;
  * @api public
  */
 
-function CollectionSync (models, options) {
-  Collection.call(this, models, options);
-  options = options || {};
-  if (options.root) {
-    this.root = options.root; 
-  }
+function CollectionSync (options) {
+  Collection.call(this, options);
 }
 
 /**
@@ -45,7 +40,13 @@ CollectionSync.prototype.constructor = CollectionSync;
  * root
  */
 
-CollectionSync.prototype.root = '';
+CollectionSync.prototype.root = '/';
+
+/**
+ * path
+ */
+ 
+CollectionSync.prototype.path = '';
 
 /**
  * url
@@ -56,7 +57,11 @@ CollectionSync.prototype.root = '';
  */
 
 CollectionSync.prototype.url = function () {
-  return this.root;
+  var url = this.root;
+  url += url.charAt(url.length - 1) === '/' ? '' : '/';
+  url += path;
+  
+  return url;
 };
 
 /**
@@ -71,20 +76,22 @@ CollectionSync.prototype.url = function () {
  */
 
 CollectionSync.prototype.create = function (data, callback, context) {
-  var callback = callback || function () {};
-  var url = this.url();
+  data = data || {};
+  callback = callback || function () {};
   var collection = this;
-  var model;
+  var url = collection.url();
 
   request
     .post(url)
     .data(data)
     .end(function (res) {
+      var models;
+
       if (res.ok) {
-        model = collection.add(res.body);
-        callback.call(context, null, model);
+        models = collection.add(res.body);
+        callback.call(context, null, models);
       } else {
-        callback.call(context, res.text, null);
+        callback.call(context, res.body, null);
       }
     });
 };
@@ -101,21 +108,20 @@ CollectionSync.prototype.create = function (data, callback, context) {
  */
 
 CollectionSync.prototype.fetch = function (options, callback, context) {
-  var options = options || {};
-  var callback = callback || function () {};
-  var url = this.url();
+  options = options || {};
+  callback = callback || function () {};
+  var query = options.query || {};
   var collection = this;
-  var models = [];
-  var model;
-
+  var url = collection.url();
+  
   request
     .get(url)
+    .query(query)
     .end(function (res) {
+      var models;
+      
       if (res.ok) {
-        res.body.forEach(function (data) {
-          model = collection.add(res.body);
-          models.push(model);
-        });
+        models = collection.add(res.body);
         callback.call(context, null, models);
       } else {
         callback.call(context, res.text, null);
