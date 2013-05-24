@@ -12,6 +12,7 @@
 
 var Collection = require('collection');
 var request = require('request');
+var ModelSync = require('model-sync');
 
 /**
  * Expose `CollectionSync`.
@@ -35,6 +36,12 @@ function CollectionSync (options) {
 
 CollectionSync.prototype = Object.create(Collection.prototype);
 CollectionSync.prototype.constructor = CollectionSync;
+
+/**
+ * model
+ */
+
+CollectionSync.prototype.model = ModelSync;
 
 /**
  * root
@@ -63,6 +70,29 @@ CollectionSync.prototype.url = function () {
   
   return url;
 };
+
+/**
+ * get_by_id
+ * 
+ * @param {String} id id of the model to get
+ * @return {Model} model
+ * @api public
+ */
+ 
+CollectionSync.prototype.get_by_id = function (id) {
+  var models = this.models;
+  var len = models.length;
+  var i;
+  var model;
+  
+  for (i = 0; i < len; i += 1) {
+    model = models[i];
+    if (model.id() === id) {
+      return model;      
+    }
+  }
+  
+}
 
 /**
  * create
