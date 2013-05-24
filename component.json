@@ -1,6 +1,6 @@
 {
   "name": "collection-sync",
-  "repo": "apily/model-sync",
+  "repo": "apily/collection-sync",
   "version": "0.0.1",
   "description": "Collection sync component",
   "keywords": ["client-side", "MVC", "collection", "sync"],
