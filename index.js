@@ -47,13 +47,13 @@ CollectionSync.prototype.model = ModelSync;
  * root
  */
 
-CollectionSync.prototype.root = '/';
+CollectionSync.prototype.root = '';
 
 /**
  * path
  */
  
-CollectionSync.prototype.path = '';
+CollectionSync.prototype.path = '/';
 
 /**
  * url
@@ -64,11 +64,7 @@ CollectionSync.prototype.path = '';
  */
 
 CollectionSync.prototype.url = function () {
-  var url = this.root;
-  url += url.charAt(url.length - 1) === '/' ? '' : '/';
-  url += path;
-  
-  return url;
+  return this.root.concat(this.path).replace(/\/\//, '/');
 };
 
 /**
