@@ -91,6 +91,21 @@ CollectionSync.prototype.get_by_id = function (id) {
     }
   }
   
+  return;
+}
+
+CollectionSync.prototype.obtain = function (id, callback) {
+ var model = this.get_by_id(id);
+ 
+ if (!model) {
+   model = new this.model();
+   model.set(model.primary_key, id);
+   this.add(model);
+   model.fetch(callback);
+   return;
+ }
+ 
+ callback(null, model);
 }
 
 /**
