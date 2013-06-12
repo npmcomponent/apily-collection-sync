@@ -19,7 +19,7 @@ var model_sync = require('model-sync');
 
 module.exports = function (collection) {
 
-  collection.model.use(model_sync);
+  collection.prototype.model.use(model_sync);
 
   /**
    * root
