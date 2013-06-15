@@ -162,5 +162,33 @@ module.exports = function (collection) {
       });
   };
   
+  /*
+   * has
+   * Check if this list contains `obj`.
+   *
+   * @param {Mixed} obj
+   * @return {Boolean}
+   * @api public
+   */
+  
+  collection.prototype.has =
+  collection.prototype.contains = function (obj) {
+    var items = this.models;
+    var len = items.length;
+    var i;
+    var item;
+    var test;
+  
+    for (i = 0; i < len; i += 1) {
+      item = items[i];
+      test = item.id() === obj.id();
+      if (test) {
+        return true;
+      }
+    }
+  
+    return false;
+  };
+  
   return collection;
 };
