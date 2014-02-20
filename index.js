@@ -10,8 +10,8 @@
  * Component dependencies.
  */
 
-var request = require('request');
-var model_sync = require('model-sync');
+var request = require('apily-request');
+var model_sync = require('apily-model-sync');
 
 /**
  * Expose component

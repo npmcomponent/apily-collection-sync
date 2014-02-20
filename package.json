@@ -1,0 +1,17 @@
+{
+  "name": "apily-collection-sync",
+  "description": "Collection sync component",
+  "version": "0.0.1",
+  "keywords": [
+    "client-side",
+    "MVC",
+    "collection",
+    "sync"
+  ],
+  "dependencies": {
+    "apily-collection": "git://github.com/npmcomponent/apily-collection.git",
+    "apily-request": "git://github.com/npmcomponent/apily-request.git",
+    "apily-model-sync": "git://github.com/npmcomponent/apily-model-sync.git"
+  },
+  "license": "MIT"
+}
